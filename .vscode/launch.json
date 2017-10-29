@@ -96,9 +96,9 @@
             "name": "Django",
             "type": "python",
             "request": "launch",
-            "stopOnEntry": true,
+            "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
-            "program": "${workspaceRoot}/mysite/manage.py",
+            "program": "${workspaceRoot}/Medical System/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
                 "runserver",
