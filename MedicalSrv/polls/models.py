@@ -14,6 +14,7 @@ class User(models.Model):
     Email = models.EmailField()
     FirstName = models.CharField(max_length=30)
     LastName = models.CharField(max_length=30)
+    IsActive = models.BooleanField()
     Institute = models.ForeignKey(Institute, on_delete=None)
 
 

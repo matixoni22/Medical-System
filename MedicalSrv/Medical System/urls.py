@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from polls import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # ex /
+    url(r'^main/', views.index),
+    # ex /login/
+    url(r'^login/', views.login, name='login'),
 ]
