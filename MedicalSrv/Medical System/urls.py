@@ -20,7 +20,7 @@ from polls import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # ex /
-    url(r'^main/', views.index),
+    url(r'^main/', views.index, name='main'),
     # ex /login/
-    url(r'^login/', views.login, name='login'),
+    url(r'^login/', views.log, name='login'),
 ]

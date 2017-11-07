@@ -1,5 +1,6 @@
 from django.db import models
 from common.choices import *
+from django.contrib.auth.models import User
 
 
 class Institute(models.Model):
@@ -7,14 +8,9 @@ class Institute(models.Model):
     Name = models.CharField(max_length=30)
 
 
-class User(models.Model):
+class UserProfile(models.Model):
     Id = models.AutoField(primary_key=True)
-    Login = models.CharField(max_length=30)
-    Password = models.CharField(max_length=30)
-    Email = models.EmailField()
-    FirstName = models.CharField(max_length=30)
-    LastName = models.CharField(max_length=30)
-    IsActive = models.BooleanField()
+    User = models.OneToOneField(User)
     Institute = models.ForeignKey(Institute, on_delete=None)
 
 
@@ -27,7 +23,7 @@ class Patient(models.Model):
     BirthDate = models.DateTimeField()
     CatalogPath = models.CharField(max_length=30)
     CreationDate = models.DateTimeField()
-    Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    Doctor = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
 
 class Photography(models.Model):
