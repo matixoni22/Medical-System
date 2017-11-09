@@ -1,6 +1,57 @@
-{% extends "Medical/website-base.html" %}
-{% block content %}
-    <div id="registration">
+{% extends "Medical/website-base.html" %} {% block content %}
+<div class="container" id="registration">
+
+    <div class="col-4">
         <h1>Registration</h1>
     </div>
+    <div class="col-4">
+        <h2>Patient Data</h1>
+    </div>
+    <div class="row">
+        <form class="col-12" action="" method="post">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group form-inline">
+                        <label class="col-4" for="">First Name:</label>
+                        <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted">Help text</small>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="col-4"  for="">Last Name:</label>
+                        <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted">Help text</small>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="col-4"  for="">Personal ID:</label>
+                        <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted">Help text</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                        <div class="form-group form-inline">
+                            <label class="col-4"  for="">Sex:</label>
+                            <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                            <small id="helpId" class="text-muted">Help text</small>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-4">Birth Date</label>
+                                <div class="container">
+                                        <div class="row">
+                                            <input type="date" id="test" />
+                                           
+                                        </div>
+                                    </div>
+                            </div>
+                        <div class="form-group form-inline">
+                            <label class="col-4"  for="">Phone number:</label>
+                            <input type="number" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                            <small id="helpId" class="text-muted">Help text</small>
+                        </div>
+                    </div>
+            </div>
+
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -38,3 +38,8 @@ def OnPatients(request):
 @login_required(login_url='/login/')
 def OnCalendar(request):
     return render(request, 'Medical/Calendar/main-calendar.html')
+
+
+@login_required(login_url='/login/')
+def OnAccount(request):
+    return render(request, 'Medical/Account/main-account.html')

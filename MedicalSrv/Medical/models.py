@@ -24,6 +24,7 @@ class Patient(models.Model):
     LastName = models.CharField(max_length=30)
     Sex = models.IntegerField(choices=Sex, default=1)
     BirthDate = models.DateTimeField()
+    PhoneNumber = models.CharField(max_length=20)
     CatalogPath = models.CharField(max_length=30)
     CreationDate = models.DateTimeField()
     Doctor = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
@@ -33,6 +34,7 @@ class Vist(models.Model):
     Id = models.AutoField(primary_key=True)
     Date = models.DateTimeField()
     CreteDate = models.DateTimeField()
+    Details = models.CharField(max_length=300)
     Patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
 
