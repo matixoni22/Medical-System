@@ -98,7 +98,7 @@
             "request": "launch",
             "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
-            "program": "${workspaceRoot}/Medical System/manage.py",
+            "program": "${workspaceRoot}/MedicalSrv/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
                 "runserver",
