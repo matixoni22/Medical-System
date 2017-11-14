@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $(document).ready(function() {
-        $( "#datepicker" ).datepicker();
-    });
+    $( "#birthpicker" ).datepicker();
+    $( "#datepicker" ).datepicker();
+    $("#ssn").mask("999-999-999");
+
 });

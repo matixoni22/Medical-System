@@ -33,7 +33,7 @@ class Patient(models.Model):
 class Vist(models.Model):
     Id = models.AutoField(primary_key=True)
     Date = models.DateTimeField()
-    CreteDate = models.DateTimeField()
+    CreateDate = models.DateTimeField()
     Details = models.CharField(max_length=300)
     Patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 

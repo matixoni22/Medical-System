@@ -4,6 +4,7 @@ from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from datetime import datetime
 
 
 def Log(request):
@@ -27,6 +28,8 @@ def Index(request):
 
 @login_required(login_url='/login/')
 def OnRegistration(request):
+    if request.POST:
+        user = ''
     return render(request, 'Medical/Registration/main-registration.html')
 
 

@@ -1,7 +1,7 @@
 {% extends "Medical/website-base.html" %}
 {% block content %}
     <div class="container" style="text-align: center" id="login">
-        <form class="form-horizontal frame" name="LoginForm" action="/login/" method="post">
+        <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
         {% csrf_token %}
         {% if next %}
             <input type="hidden" name="next" value="{{ next }}" />

@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    $(document).ready(function() {
-        $( "#datepicker" ).datepicker();
-    });
+    $( "#birthpicker" ).datepicker();
+    $( "#datepicker" ).datepicker();
+    $("#timepicker").timepicker({ 'timeFormat': 'H:i' });
+    $("#ssn").mask("999-999-999");
+
 });
