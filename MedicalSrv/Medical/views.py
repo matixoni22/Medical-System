@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from datetime import datetime
+from .models import *
+from django.db.models.manager import Manager
 
 
 def Log(request):
@@ -29,7 +31,16 @@ def Index(request):
 @login_required(login_url='/login/')
 def OnRegistration(request):
     if request.POST:
-        user = ''
+        patient = Patient()
+        patient.FirstName = request.POST['firstname']
+        patient.LastName = request.POST['lastname']
+        patient.PID = request.POST['pid']
+        patient.BirthDate = datetime.strptime(
+            request.POST['birthdate'], "%m/%d/%Y").date()
+        patient.PhoneNumber = request.POST['phonenumber']
+        patient.Doctor = UserProfile.objects
+        patient.save()
+
     return render(request, 'Medical/Registration/main-registration.html')
 
 
