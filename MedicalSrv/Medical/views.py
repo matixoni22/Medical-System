@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from datetime import datetime
 from .models import *
-from django.db.models.manager import Manager
+from .services import *
 
 
 def Log(request):
@@ -31,16 +31,11 @@ def Index(request):
 @login_required(login_url='/login/')
 def OnRegistration(request):
     if request.POST:
-        patient = Patient()
-        patient.FirstName = request.POST['firstname']
-        patient.LastName = request.POST['lastname']
-        patient.PID = request.POST['pid']
-        patient.BirthDate = datetime.strptime(
-            request.POST['birthdate'], "%m/%d/%Y").date()
-        patient.PhoneNumber = request.POST['phonenumber']
-        patient.Doctor = UserProfile.objects
-        patient.save()
-
+        try:
+            ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                                  request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+        except Exception as inst:
+            print('Cannot add patient! Error: ' + inst.__str__)
     return render(request, 'Medical/Registration/main-registration.html')
 
 

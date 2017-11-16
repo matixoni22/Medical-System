@@ -7,11 +7,6 @@ from django.db.models.manager import Manager
 from django.dispatch import receiver
 
 
-class Institute(models.Model):
-    Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-
-
 class UserProfile(models.Model):
     Id = models.AutoField(primary_key=True)
     UserMain = models.OneToOneField(
@@ -19,7 +14,6 @@ class UserProfile(models.Model):
     FirstName = models.CharField(max_length=30)
     LastName = models.CharField(max_length=30)
     Title = models.CharField(max_length=30)
-    Institute = models.ForeignKey(Institute, on_delete=None)
 
 
 @receiver(post_save, sender=User)
@@ -46,6 +40,7 @@ class Patient(models.Model):
     Doctor = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def publish(self):
+        self.CreationDate = timezone.now
         self.save()
 
 
