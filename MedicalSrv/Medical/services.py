@@ -20,9 +20,18 @@ def ValidateAndAddPatient(firstname='', lastname='', pid=0, birthdate='', sex=''
     patient.BirthDate = ValidateAndParseDateTime(birthdate, birthdate.__str__)
     patient.Sex = ValidateAndSetSex(sex)
     patient.PhoneNumber = phonenumber
-    patient.Doctor = UserProfile.objects.select_related().filter(profile=doctorid)
-
+    patient.Doctor = UserProfile.objects.get(UserMain_id=doctorid)
     patient.publish()
+
+    return patient.Id
+
+
+def ValidateAndAddVisit(datetime='', time='', details='', patientId=0):
+    visit = Visit()
+    visit.Date = ValidateAndParseDateTime(datetime, datetime.__str__, time)
+    visit.Details = details
+    visit.Patient = Patient.objects.get(pk=patientId)
+    visit.publish()
 
 
 def CheckIfNull(parameter='', parametername=''):
@@ -35,7 +44,7 @@ def ValidateAndParseDateTime(datetimestr='', parametername='', timestr=''):
     if timestr != '':
         try:
             date = datetime.strptime(
-                datetimestr + '/' + timestr, "%m/%d/%Y/%H:%M").date()
+                datetimestr + ' ' + timestr, "%m/%d/%Y %H:%M")
         except Exception:
             raise ValueError('Wrong date format of ' +
                              datetimestr + ' or ' + timestr)

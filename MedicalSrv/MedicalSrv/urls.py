@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^registration/', views.OnRegistration, name='registration'),
     url(r'^calendar/', views.OnCalendar, name='calendar'),
     url(r'^patients/', views.OnPatients, name='patients'),
-    url(r'^account/', views.OnAccount, name='account')
+    url(r'^account/', views.OnAccount, name='account'),
+    url(r'^visit/', views.OnVisit, name='visit')
 
 ]

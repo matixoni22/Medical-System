@@ -2,18 +2,21 @@ from django.db import models
 from .common.choices import *
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import datetime
 from django.db.models.signals import post_save
 from django.db.models.manager import Manager
 from django.dispatch import receiver
+import pathlib
+import os
 
 
 class UserProfile(models.Model):
     Id = models.AutoField(primary_key=True)
     UserMain = models.OneToOneField(
         User, related_name='profile')
-    FirstName = models.CharField(max_length=30)
-    LastName = models.CharField(max_length=30)
-    Title = models.CharField(max_length=30)
+    FirstName = models.CharField(max_length=100)
+    LastName = models.CharField(max_length=100)
+    Title = models.CharField(max_length=100)
 
 
 @receiver(post_save, sender=User)
@@ -30,38 +33,52 @@ def save_user_profile(sender, instance, **kwargs):
 class Patient(models.Model):
     Id = models.AutoField(primary_key=True)
     PID = models.IntegerField()
-    FirstName = models.CharField(max_length=30)
-    LastName = models.CharField(max_length=30)
+    FirstName = models.CharField(max_length=100)
+    LastName = models.CharField(max_length=100)
     Sex = models.IntegerField(choices=Sex, default=1)
-    BirthDate = models.DateTimeField()
-    PhoneNumber = models.CharField(max_length=20)
-    CatalogPath = models.CharField(max_length=30)
+    BirthDate = models.DateField()
+    PhoneNumber = models.CharField(max_length=100)
+    CatalogPath = models.CharField(max_length=100)
     CreationDate = models.DateTimeField()
     Doctor = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def publish(self):
-        self.CreationDate = timezone.now
+        self.CreationDate = datetime.now()
+        catalogName = self.PID + '_' + self.LastName
+        try:
+            os.makedirs("Medical/medical_data/" + catalogName)
+            self.CatalogPath = "Medical/medical_data/" + catalogName
+        except OSError as init:
+            print("error: ", init)
+            raise EnvironmentError('Cannot add directory')
         self.save()
 
 
-class Vist(models.Model):
+class Visit(models.Model):
     Id = models.AutoField(primary_key=True)
     Date = models.DateTimeField()
     CreateDate = models.DateTimeField()
     Details = models.CharField(max_length=300)
+    CatalogPath = models.CharField(max_length=300)
     Patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
     def publish(self):
-        self.CreateDate = timezone.now
+        self.CreateDate = datetime.now()
+        try:
+            directory = self.Patient.CatalogPath + "/" + str(self.Date)
+            os.makedirs(directory)
+            self.CatalogPath = directory
+        except OSError as init:
+            print("error: ", init)
+            raise EnvironmentError('Cannot add directory')
         self.save()
 
 
 class Photography(models.Model):
     Id = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=30)
-    Directory = models.CharField(max_length=100)
+    Name = models.CharField(max_length=100)
     Discription = models.CharField(max_length=1000)
-    Patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    Visit = models.ForeignKey(Visit, on_delete=models.CASCADE)
 
     def publish(self):
         self.save()

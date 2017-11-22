@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jquery',
     'jquery_ui',
+    'django_tables2'
 
 ]
 
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'MedicalSrv.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'medicaldb',
-        'USER': 'admin',
-        'PASSWORD': '123mati123',
+        'NAME': 'mproject',
+        'USER': 'admin_user',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '5432',
     }

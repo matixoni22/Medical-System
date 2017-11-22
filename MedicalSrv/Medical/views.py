@@ -7,6 +7,8 @@ from django.template import RequestContext
 from datetime import datetime
 from .models import *
 from .services import *
+from .viewmodel import *
+from django_tables2.config import *
 
 
 def Log(request):
@@ -32,11 +34,22 @@ def Index(request):
 def OnRegistration(request):
     if request.POST:
         try:
-            ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
-                                  request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+            patientId = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                                              request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+            ValidateAndAddVisit(
+                request.POST['visitdate'], request.POST['visittime'], request.POST.get('description', False), patientId)
+            return render(request, 'Medical/Registration/main-registration.html', {'registration_status': 'Visit was added!'})
         except Exception as inst:
-            print('Cannot add patient! Error: ' + inst.__str__)
+            errorMessage = ('Cannot add patient! Error: ' + inst.__str__)
+            return render(request, 'Medical/Registration/main-registration.html', {'registration_status': errorMessage})
     return render(request, 'Medical/Registration/main-registration.html')
+
+
+@login_required(login_url='/login/')
+def OnVisit(request):
+    visits = VisitTable(Visit.objects.all())
+    RequestConfig(request).configure(visits)
+    return render(request, 'Medical/Visit/main-visit.html', {'visits': visits})
 
 
 @login_required(login_url='/login/')
