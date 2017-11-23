@@ -40,16 +40,24 @@ def OnRegistration(request):
                 request.POST['visitdate'], request.POST['visittime'], request.POST.get('description', False), patientId)
             return render(request, 'Medical/Registration/main-registration.html', {'registration_status': 'Visit was added!'})
         except Exception as inst:
-            errorMessage = ('Cannot add patient! Error: ' + inst.__str__)
+            errorMessage = ('Cannot add patient! Error: ' + inst.args.__str__)
             return render(request, 'Medical/Registration/main-registration.html', {'registration_status': errorMessage})
     return render(request, 'Medical/Registration/main-registration.html')
 
 
 @login_required(login_url='/login/')
 def OnVisit(request):
+    if request.POST:
+        url = '/openvisit/' + request.POST['visit_id']
+        return HttpResponseRedirect(url)
     visits = VisitTable(Visit.objects.all())
     RequestConfig(request).configure(visits)
     return render(request, 'Medical/Visit/main-visit.html', {'visits': visits})
+
+
+@login_required(login_url='/login/')
+def OnOpenVisit(request, visit_id=0):
+    return render(request, 'Medical/Visit/open-visit.html')
 
 
 @login_required(login_url='/login/')

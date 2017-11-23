@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^calendar/', views.OnCalendar, name='calendar'),
     url(r'^patients/', views.OnPatients, name='patients'),
     url(r'^account/', views.OnAccount, name='account'),
-    url(r'^visit/', views.OnVisit, name='visit')
+    url(r'^visit/', views.OnVisit, name='visit'),
+    url(r'^openvisit/(?P<visit_id>[0-9]+)/$',
+        views.OnOpenVisit, name='openvisit')
 
 ]

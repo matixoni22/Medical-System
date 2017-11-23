@@ -32,7 +32,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Patient(models.Model):
     Id = models.AutoField(primary_key=True)
-    PID = models.IntegerField()
+    PID = models.IntegerField(unique=True)
     FirstName = models.CharField(max_length=100)
     LastName = models.CharField(max_length=100)
     Sex = models.IntegerField(choices=Sex, default=1)
