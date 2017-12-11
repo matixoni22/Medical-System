@@ -9,6 +9,7 @@ from .models import *
 from .services import *
 from .viewmodel import *
 from django_tables2.config import *
+from django.core.files.storage import FileSystemStorage
 
 
 def Log(request):
@@ -57,6 +58,18 @@ def OnVisit(request):
 
 @login_required(login_url='/login/')
 def OnOpenVisit(request, visit_id=0):
+    if request.POST:
+        myFile = request.FILES['myfile']
+        try:
+            ValidateAndAddPhotography(myFile, "image", visit_id)
+        except Exception as inst:
+            errorMessage = ''
+            if hasattr(inst, 'message'):
+                errorMessage = inst.message
+            else:
+                errorMessage = inst
+            return render(request, 'Medical/Visit/open-visit.html', {'status': errorMessage})
+
     return render(request, 'Medical/Visit/open-visit.html')
 
 

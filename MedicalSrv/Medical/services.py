@@ -34,6 +34,19 @@ def ValidateAndAddVisit(datetime='', time='', details='', patientId=0):
     visit.publish()
 
 
+def ValidateAndAddPhotography(image='', discription='', visitId=0):
+    CheckIfNull(image, image.__str__)
+    photography = Photography()
+    photography.Name = image.name
+    photography.Discription = discription
+    photography.Visit = Visit.objects.get(pk=visitId)
+    photography.Image = image
+
+    photography.publish()
+
+    return photography.Id
+
+
 def CheckIfNull(parameter='', parametername=''):
     if(parameter == ''):
         raise ValueError('parameter: ' + parametername + ' is empty')

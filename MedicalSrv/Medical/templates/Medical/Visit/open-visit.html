@@ -1,9 +1,14 @@
-{% extends "Medical/website-base.html" %} {% block content %}
+{% extends "Medical/website-base.html" %} 
+{% load staticfiles %} 
+{% block content %}
 <div id="open-visit">
-    <h1>OpenVisit</h1>
     <div class="container">
-        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile">
+            <button type="submit">Upload</button>
+          </form>
+          <h2>{{status}}</h2>
     </div>
-
 </div>
 {% endblock %}

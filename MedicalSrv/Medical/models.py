@@ -10,6 +10,10 @@ import pathlib
 import os
 
 
+def GetUploadedPath(instance, filename):
+    return '{0}/{1}'.format(instance.Visit.CatalogPath, filename)
+
+
 class UserProfile(models.Model):
     Id = models.AutoField(primary_key=True)
     UserMain = models.OneToOneField(
@@ -79,6 +83,7 @@ class Photography(models.Model):
     Name = models.CharField(max_length=100)
     Discription = models.CharField(max_length=1000)
     Visit = models.ForeignKey(Visit, on_delete=models.CASCADE)
+    Image = models.ImageField(upload_to=GetUploadedPath)
 
     def publish(self):
         self.save()
