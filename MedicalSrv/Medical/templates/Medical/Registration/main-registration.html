@@ -1,82 +1,84 @@
  {% extends "Medical/website-base.html" %} 
  {% load staticfiles %} 
+ {% load render_table from django_tables2 %} 
  {% block content %}
- <link rel="stylesheet" href="{% static '/css/jquery-ui/smoothness/jquery-ui.css' %}">
- <link rel="stylesheet" href="{% static '/css/timepicker.css' %}">
-<script type="text/javascript" src="{% static '/js/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static '/js/jquery-ui.js' %}"></script>
-<script type="text/javascript" src="{% static '/js/jquery.mask.js' %}"></script>
-<script type="text/javascript" src="{% static '/js/cal.js' %}"></script>
-<script type="text/javascript" src="{% static '/js/jquery.timepicker.js' %}"></script>
+ <script type="text/javascript" src="{% static '/js/checkbox_select.js' %}"></script>
 <div class="container" id="registration">
-    <div class="col-4 align-content-center">
+    <div class="col-12" style="text-align: center" >
         <h1>Registration</h1>
     </div>
 
     <div class="row">
+        <div class="col-12">
+            <h2 style="text-align: center">Patient Details</h1>
+        </div>
+       
         <form class="col-12" action="/registration/" method="post">
             {% csrf_token %}
-            <div class="col-4">
-                <h2>Patient Details</h1>
+            <div class="col-6">
+                    {% render_table patients %}
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">First Name:</label>
-                        <input type="text" name="firstname" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Last Name:</label>
-                        <input type="text" name="lastname" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Personal ID:</label>
-                        <input type="text" name="pid" id="" class="form-control" onkeypress="return isNumber(event)" placeholder="" aria-describedby="helpId">
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Sex:</label>
-                        <select class="col-5 form-control" name="sex" id="sel1">
-                                <option>Male</option>
-                                <option>Female</option>
-                              </select>
-                    </div>
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Birth Date:</label>
-                        <input type="text" name="birthdate" id="birthpicker" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Phone number:</label>
-                        <input name="phonenumber" id="ssn" class="form-control" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <h2>Visit Details</h1>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Visit Date:</label>
-                        <input type="text" name="visitdate" id="datepicker" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group form-inline">
-                            <label class="col-4" for="">Hour:</label>
-                            <input type="text" name="visittime" id="timepicker" class="form-control ui-timepicker-input" placeholder="" aria-describedby="helpId">
+            <div class="com-12 card card-block bg-light" style="padding-top: 1em">
+                    <div class="row">
+                            <div class="col-6">
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">First Name:</label>
+                                    <input type="text" name="firstname" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Last Name:</label>
+                                    <input type="text" name="lastname" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Personal ID:</label>
+                                    <input type="text" name="pid" id="" class="form-control" onkeypress="return isNumber(event)" placeholder="" aria-describedby="helpId">
+                                </div>
+                            </div>
+            
+                            <div class="col-6">
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Sex:</label>
+                                    <select class="col-5 form-control" name="sex" id="sel1">
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                          </select>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Birth Date:</label>
+                                    <input type="text" name="birthdate" id="birthpicker" class="form-control" placeholder="" aria-describedby="helpId">
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Phone number:</label>
+                                    <input name="phonenumber" id="ssn" class="form-control" />
+                                </div>
+                            </div>
                         </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group form-inline">
-                        <label class="col-4" for="">Description:</label>
-                        <input type="text" name="decription" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                </div>
+            </div>
+
+                <h2 style="text-align: center">Visit Details</h1>
+            <div class="com-12 card card-block bg-light" style="padding-top: 1em">
+                    <div class="row">
+                            <div class="col-6">
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Visit Date:</label>
+                                    <input type="text" name="visitdate" id="datepicker" class="form-control" placeholder="" aria-describedby="helpId">
+                                </div>
+                                <div class="form-group form-inline">
+                                        <label class="col-4" for="">Hour:</label>
+                                        <input type="text" name="visittime" id="timepicker" class="form-control ui-timepicker-input" placeholder="" aria-describedby="helpId">
+                                    </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group form-inline">
+                                    <label class="col-4" for="">Description:</label>
+                                    <input type="text" name="decription" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                </div>
+                            </div>
+                        </div>
             </div>
             <label class="text-success">{{registration_status}}</label>
             <div class="col-3 offset-8">
-                <button type="submit" class="btn-primary btn-block form-control-lg">Add visit</button>
+                <button type="submit" class="btn-success btn-block form-control-lg">Add visit</button>
             </div>
         </form>
     </div>

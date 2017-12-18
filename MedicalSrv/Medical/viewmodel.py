@@ -5,10 +5,8 @@ from MedicalSrv.urls import *
 
 
 class VisitTable(tables.Table):
-    amend = tables.TemplateColumn(
-        '<form method="post" action="/visit/">{% csrf_token %}<button class="btn btn-primary" name="openvisit" type="submit" value="{{ visits.Id }}">Open Visit</button></form>', verbose_name="")
     link = tables.LinkColumn(
-        'openvisit', text='static text', args=[A('pk')])
+        'openvisit', text='open Visit', args=[A('pk')])
 
     class Meta:
         model = Visit
@@ -17,5 +15,33 @@ class VisitTable(tables.Table):
                   'Patient.LastName'}
         sequence = ('Id', 'Date', 'Patient.FirstName',
                     'Patient.LastName')
+
+        template = 'django_tables2/bootstrap.html'
+
+
+class PatientTable(tables.Table):
+    link = tables.LinkColumn(
+        'patientedit', text='edit', args=[A('pk')])
+
+    class Meta:
+        model = Patient
+
+        fields = {'Id', 'FirstName', 'LastName',
+                  'PID', 'Sex', 'BirthDate', 'PhoneNumber'}
+        sequence = ('Id', 'FirstName', 'LastName',
+                    'PID', 'Sex', 'BirthDate', 'PhoneNumber')
+
+        template = 'django_tables2/bootstrap.html'
+
+
+class RegPatientTable(tables.Table):
+    selection = tables.CheckBoxColumn(accessor='pk')
+    class Meta:
+        model = Patient
+        
+        fields = {'Id', 'FirstName', 'LastName',
+                  'PID', 'Sex', 'BirthDate', 'PhoneNumber'}
+        sequence = ('Id', 'FirstName', 'LastName',
+                    'PID', 'Sex', 'BirthDate', 'PhoneNumber')
 
         template = 'django_tables2/bootstrap.html'

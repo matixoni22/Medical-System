@@ -1,6 +1,17 @@
 {% extends "Medical/website-base.html" %}
+{% load render_table from django_tables2 %} 
 {% block content %}
+
     <div id="main-patients">
-        <h1>Patients</h1>
+        <h1 style="text-align: center">Patients</h1>
+        <div class="container">
+                <div class="col-9 card card-block bg-light" style="float: none; margin: 0 auto;">
+                    {% render_table patients %}
+
+                    <div class="col-3 offset-10">
+                            <a href="/patientadd" style="font-size: 20" class="btn btn-primary">Add patient</a>
+                    </div>
+                </div>
+            </div>
     </div>
 {% endblock %}

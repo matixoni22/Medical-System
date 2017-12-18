@@ -1,54 +1,64 @@
 {% extends "Medical/website-base.html" %} 
 {% load staticfiles %} 
 {% block content %}
+<script type="text/javascript" src="{% static '/js/checkbox_select.js' %}"></script>
+<script type="text/javascript" src="{% static '/js/modal.js' %}"></script>
 <div id="open-visit">
     <div class="container-fluid">
       
           <div class="row">
             <div id="patient_details" class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                            <label>First name:</label>
-                            <label>{{ patient.FirstName}}</label>                             
-                    </div>
-                    <div class="col-6">
-                            <label>Last name:</label>
-                            <label>{{ patient.LastName}}</label>                             
-                    </div>
-                    <div class="col-6">
-                            <label>PID:</label> 
-                            <label>{{ patient.PID}}</label>                           
-                    </div>
-                    <div class="col-6">
-                            <label>Sex:</label> 
-                            <label>{{ patient.Sex}}</label>                           
-                    </div>
-                    <div class="col-6">
-                            <label>Bith date:</label>
-                            <label>{{ patient.BirthDate}}</label>                              
-                    </div>
-                    <div class="col-6">
-                            <label>Phone number:</label> 
-                            <label>{{ patient.PhoneNumber}}</label>                            
-                    </div>
-
+                <h2 style="text-align: center">Image gallery</h2>
+                <div class="col-12  card card-block bg-light">
+                        <div class="row">
+                                <div class="col-6">
+                                        <label>First name:</label>
+                                        <label>{{ patient.FirstName}}</label>                             
+                                </div>
+                                <div class="col-6">
+                                        <label>Last name:</label>
+                                        <label>{{ patient.LastName}}</label>                             
+                                </div>
+                                <div class="col-6">
+                                        <label>PID:</label> 
+                                        <label>{{ patient.PID}}</label>                           
+                                </div>
+                                <div class="col-6">
+                                        <label>Sex:</label> 
+                                        <label>{{ patient.Sex}}</label>                           
+                                </div>
+                                <div class="col-6">
+                                        <label>Bith date:</label>
+                                        <label>{{ patient.BirthDate}}</label>                              
+                                </div>
+                                <div class="col-6">
+                                        <label>Phone number:</label> 
+                                        <label>{{ patient.PhoneNumber}}</label>                            
+                                </div>
+            
+                            </div>
                 </div>
-                <div id="result" class="col-12">
-                        <div style="min-height: 20em" class="col-12">
-                                <a href="#" class="pop"><img style="width: 100%" src="{{ result.Image.url }}" /></a>
-                        </div>
-                        <form   method="post">
-                                {% csrf_token %}
-                                <input style="visibility: hidden" type="text" id="inp_img" name="images_id">
-                                <button class="btn btn-primary" type="submit">Calculate</button>
-                        </form>     
-                    </div>
+                <h2 style="text-align: center">Result</h2>
+                <div class="col-12  card card-block bg-light">
+                        <div id="result" class="col-12">
+                                
+                                    <div style="min-height: 20em" class="col-12">
+                                            <a href="#" class="pop"><img style="width: 100%" src="{{ result.Image.url }}" /></a>
+                                    </div>
+                                    <form   method="post">
+                                            {% csrf_token %}
+                                            <input style="visibility: hidden" type="text" id="inp_img" name="images_id">
+                                            <button class="btn btn-primary" type="submit">Calculate</button>
+                                    </form>     
+                                </div>
+                </div>
             </div>
-            <div id="image_gallery" class="col-6">
+            <div id="image_gallery" class="col-6  card card-block bg-light">
+                    <h2 style="text-align: center; margin-bottom: 1em">Photo gallery</h2>
                 <div class="row" style="max-height: 30em; overflow-y: scroll">
                         {% for img in imgs %}
                         <div class="col-4">
-                           <a href="#" class="pop"><img style="width: 100%" src="{{ img.Image.url }}" /></a>
+                           <a style="margin-top: 1em" href="#" class="pop"><img style="width: 100%" src="{{ img.Image.url }}" /></a>
                            <label>{{img.Visit.Date}}</label>
                             <div style="width: 10%; margin: 0 auto">
                                 <input type="checkbox" style="align-items: center" name="check" class="cb"  value="{{img.Id}}">                            
@@ -56,7 +66,7 @@
                         </div>  
                         {% endfor %}
                 </div>
-                <form method="post" enctype="multipart/form-data">
+                <form style="margin-top: 1em" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="file" name="myfile">
                     <button class="btn btn-primary" type="submit">Upload</button>
@@ -66,11 +76,11 @@
         </div>
 
         <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">              
-                    <div class="modal-body">
+                    <div class="modal-body" >
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <img src="" class="imagepreview" style="width: 100%;" >
+                    <img src="" class="imagepreview" style="width: 100%" >
                     </div>
                 </div>
             </div>

@@ -1,12 +1,12 @@
-{% extends "Medical/website-base.html" %} {% load render_table from django_tables2 %} {% block content %}
+{% extends "Medical/website-base.html" %} 
+{% load render_table from django_tables2 %} 
+{% block content %}
 <div id="main-visit">
-    <h1>Visit</h1>
+    <h1 style="text-align: center">Visit</h1>
     <div class="container">
-        <div class="col-6">
+        <div class="col-8 card card-block bg-light" style="float: none; margin: 0 auto;">
             {% render_table visits %}
         </div>
-
     </div>
-
 </div>
 {% endblock %}

@@ -1,0 +1,50 @@
+{% extends "Medical/website-base.html" %} 
+{% load staticfiles %} 
+{% block content %}
+<div id="add-patient">
+    <div class="container-fluid">
+            <form class="col-12" method="post">
+                    {% csrf_token %}
+                    <div class="com-12 card card-block bg-light" style="padding-top: 1em">
+                            <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">First Name:</label>
+                                            <input type="text" value="{{patient.FirstName}}" name="firstname" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">Last Name:</label>
+                                            <input type="text" value="{{patient.LastName}}" name="lastname" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">Personal ID:</label>
+                                            <input type="text" value="{{patient.PID}}" name="pid" id="" class="form-control" onkeypress="return isNumber(event)" placeholder="" aria-describedby="helpId">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="col-6">
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">Sex:</label>
+                                            <select class="col-5  form-control" name="sex" id="sel1">
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                  </select>
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">Birth Date:</label>
+                                            <input type="text" value="{{bd}}" name="birthdate" id="birthpicker" class="form-control" placeholder="" aria-describedby="helpId">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label class="col-4" for="">Phone number:</label>
+                                            <input name="phonenumber" value="{{patient.PhoneNumber}}" id="ssn" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="col-3 offset-8">
+                            <button type="submit" class="btn-primary btn-block form-control-lg">Add patient</button>
+                    </div>
+            </form>
+    </div> 
+</div>
+{% endblock %}

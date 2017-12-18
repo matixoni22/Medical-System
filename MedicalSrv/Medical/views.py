@@ -43,7 +43,8 @@ def OnRegistration(request):
         except Exception as inst:
             errorMessage = ('Cannot add patient! Error: ' + inst.args.__str__)
             return render(request, 'Medical/Registration/main-registration.html', {'registration_status': errorMessage})
-    return render(request, 'Medical/Registration/main-registration.html')
+    patients = RegPatientTable(Patient.objects.all())
+    return render(request, 'Medical/Registration/main-registration.html', {'patients': patients})
 
 
 @login_required(login_url='/login/')
@@ -84,7 +85,31 @@ def OnOpenVisit(request, visit_id=0):
 
 @login_required(login_url='/login/')
 def OnPatients(request):
-    return render(request, 'Medical/Patients/main-patients.html')
+    patients = PatientTable(Patient.objects.all())
+    RequestConfig(request).configure(patients)
+    return render(request, 'Medical/Patients/main-patients.html', {'patients': patients})
+
+
+@login_required(login_url='/login/')
+def OnPatientEdit(request, patient_id=0):
+    if request.POST:
+        patientId = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                                          request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id, patient_id)
+    patient = Patient.objects.get(pk=patient_id)
+    birth = str(patient.BirthDate.month) + '/' + \
+        str(patient.BirthDate.day) + '/' + str(patient.BirthDate.year)
+    return render(request, 'Medical/Patients/edit-patient.html', {'patient': patient, 'bd': birth})
+
+
+@login_required(login_url='/login/')
+def OnPatientAdd(request):
+    if request.POST:
+        patientId = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                                          request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+        patients = PatientTable(Patient.objects.all())
+        RequestConfig(request).configure(patients)
+        return render(request, 'Medical/Patients/main-patients.html', {'patients': patients})
+    return render(request, 'Medical/Patients/add-patient.html')
 
 
 @login_required(login_url='/login/')

@@ -9,12 +9,15 @@ from datetime import datetime
 # 1.validdation of pid
 
 
-def ValidateAndAddPatient(firstname='', lastname='', pid=0, birthdate='', sex='', phonenumber='', doctorid=0):
+def ValidateAndAddPatient(firstname='', lastname='', pid=0, birthdate='', sex='', phonenumber='', doctorid=0, patient_id=0):
     CheckIfNull(firstname, firstname.__str__)
     CheckIfNull(lastname, firstname.__str__)
     CheckIfNull(phonenumber, phonenumber.__str__)
-
     patient = Patient()
+
+    if patient_id != 0:
+        patient = Patient.objects.get(pk=patient_id)
+
     patient.FirstName = firstname
     patient.LastName = lastname
     patient.PID = pid

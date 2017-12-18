@@ -31,7 +31,10 @@ urlpatterns = [
     url(r'^account/', views.OnAccount, name='account'),
     url(r'^visit/', views.OnVisit, name='visit'),
     url(r'^openvisit/(?P<visit_id>[0-9]+)/$',
-        views.OnOpenVisit, name='openvisit')
+        views.OnOpenVisit, name='openvisit'),
+    url(r'^editpatient/(?P<patient_id>[0-9]+)/$',
+        views.OnPatientEdit, name='patientedit'),
+    url(r'^patientadd/', views.OnPatientAdd, name='patientadd')
 
 ] + static(settings.MEDIA_URL,
            document_root=settings.MEDIA_ROOT)
