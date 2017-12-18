@@ -1,5 +1,6 @@
 from .common.choices import *
 from .models import *
+from .find_changes import *
 from datetime import datetime
 
 # todo
@@ -45,6 +46,14 @@ def ValidateAndAddPhotography(image='', discription='', visitId=0):
     photography.publish()
 
     return photography.Id
+
+
+def ValidateAndCalculeteImages(images_ids=''):
+    CheckIfNull(images_ids)
+    img_ids = images_ids.split(',')
+    if(len(img_ids) != 2):
+        raise ValueError('there are no 2 of image')
+    ReturnChanges(img_ids[0], img_ids[1])
 
 
 def CheckIfNull(parameter='', parametername=''):

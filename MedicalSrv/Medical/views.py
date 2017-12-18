@@ -59,18 +59,27 @@ def OnVisit(request):
 @login_required(login_url='/login/')
 def OnOpenVisit(request, visit_id=0):
     if request.POST:
-        myFile = request.FILES['myfile']
         try:
-            ValidateAndAddPhotography(myFile, "image", visit_id)
+            ids = request.POST['images_id']
+            ValidateAndCalculeteImages(ids)
         except Exception as inst:
-            errorMessage = ''
-            if hasattr(inst, 'message'):
-                errorMessage = inst.message
-            else:
-                errorMessage = inst
-            return render(request, 'Medical/Visit/open-visit.html', {'status': errorMessage})
+            myFile = request.FILES['myfile']
+            try:
+                ValidateAndAddPhotography(myFile, "image", visit_id)
+            except Exception as inst:
+                errorMessage = ''
+                if hasattr(inst, 'message'):
+                    errorMessage = inst.message
+                else:
+                    errorMessage = inst
+                return render(request, 'Medical/Visit/open-visit.html', {'status': errorMessage})
 
-    return render(request, 'Medical/Visit/open-visit.html')
+    images = Photography.objects.select_related().filter(Visit=visit_id)
+    patient = Visit.objects.get(pk=visit_id).Patient
+    result = Result.objects.select_related().filter(Visit=visit_id)[0]
+    return render(request, 'Medical/Visit/open-visit.html', {'imgs': images,
+                                                             'patient': patient,
+                                                             'result': result})
 
 
 @login_required(login_url='/login/')

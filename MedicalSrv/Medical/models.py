@@ -78,12 +78,22 @@ class Visit(models.Model):
         self.save()
 
 
+class Result(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Opaeration = models.CharField(max_length=200)
+    Visit = models.OneToOneField(Visit, on_delete=models.CASCADE)
+    Image = models.ImageField(upload_to='result_images/')
+
+    def publish(self):
+        self.save()
+
+
 class Photography(models.Model):
     Id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
     Discription = models.CharField(max_length=1000)
     Visit = models.ForeignKey(Visit, on_delete=models.CASCADE)
-    Image = models.ImageField(upload_to=GetUploadedPath)
+    Image = models.ImageField(upload_to='images/')
 
     def publish(self):
         self.save()
