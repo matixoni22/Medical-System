@@ -36,12 +36,13 @@ class PatientTable(tables.Table):
 
 class RegPatientTable(tables.Table):
     selection = tables.CheckBoxColumn(accessor='pk')
+
     class Meta:
         model = Patient
-        
+
         fields = {'Id', 'FirstName', 'LastName',
-                  'PID', 'Sex', 'BirthDate', 'PhoneNumber'}
+                  'PID'}
         sequence = ('Id', 'FirstName', 'LastName',
-                    'PID', 'Sex', 'BirthDate', 'PhoneNumber')
+                    'PID')
 
         template = 'django_tables2/bootstrap.html'

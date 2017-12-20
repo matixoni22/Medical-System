@@ -15,22 +15,23 @@
        
         <form class="col-12" action="/registration/" method="post">
             {% csrf_token %}
-            <div class="col-6">
+            <div class="row">
+                <div class="col-5 card card-block bg-light" style="max-height: 20em; overflow-y: scroll">
                     {% render_table patients %}
             </div>
-            <div class="com-12 card card-block bg-light" style="padding-top: 1em">
+            <div class="col-7 card card-block bg-light" style="padding-top: 1em">
                     <div class="row">
                             <div class="col-6">
                                 <div class="form-group form-inline">
-                                    <label class="col-4" for="">First Name:</label>
+                                    <label class="col-6" for="">First Name:</label>
                                     <input type="text" name="firstname" id="" class="form-control" placeholder="" aria-describedby="helpId">
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-4" for="">Last Name:</label>
+                                    <label class="col-6" for="">Last Name:</label>
                                     <input type="text" name="lastname" id="" class="form-control" placeholder="" aria-describedby="helpId">
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-4" for="">Personal ID:</label>
+                                    <label class="col-6" for="">Personal ID:</label>
                                     <input type="text" name="pid" id="" class="form-control" onkeypress="return isNumber(event)" placeholder="" aria-describedby="helpId">
                                 </div>
                             </div>
@@ -38,23 +39,25 @@
                             <div class="col-6">
                                 <div class="form-group form-inline">
                                     <label class="col-4" for="">Sex:</label>
-                                    <select class="col-5 form-control" name="sex" id="sel1">
+                                    <select class="col-9 form-control" name="sex" id="sel1">
                                             <option>Male</option>
                                             <option>Female</option>
                                           </select>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-4" for="">Birth Date:</label>
+                                    <label class="col-6" for="">Birth Date:</label>
                                     <input type="text" name="birthdate" id="birthpicker" class="form-control" placeholder="" aria-describedby="helpId">
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label class="col-4" for="">Phone number:</label>
+                                    <label class="col-8" for="">Phone number:</label>
                                     <input name="phonenumber" id="ssn" class="form-control" />
                                 </div>
                             </div>
                         </div>
             </div>
 
+            </div>
+     
                 <h2 style="text-align: center">Visit Details</h1>
             <div class="com-12 card card-block bg-light" style="padding-top: 1em">
                     <div class="row">

@@ -33,17 +33,21 @@ def Index(request):
 
 @login_required(login_url='/login/')
 def OnRegistration(request):
+    patients = RegPatientTable(Patient.objects.all())
     if request.POST:
         try:
-            patientId = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
-                                              request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+            patient_id = 0
+            if 'selection' not in request.POST:
+                patient_Id = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                                                   request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
+            else:
+                patient_id = int(request.POST['selection'])
             ValidateAndAddVisit(
-                request.POST['visitdate'], request.POST['visittime'], request.POST.get('description', False), patientId)
-            return render(request, 'Medical/Registration/main-registration.html', {'registration_status': 'Visit was added!'})
+                request.POST['visitdate'], request.POST['visittime'], request.POST.get('description', False), patient_id)
+            return render(request, 'Medical/Registration/main-registration.html', {'registration_status': 'Visit was added!', 'patients': patients})
         except Exception as inst:
             errorMessage = ('Cannot add patient! Error: ' + inst.args.__str__)
             return render(request, 'Medical/Registration/main-registration.html', {'registration_status': errorMessage})
-    patients = RegPatientTable(Patient.objects.all())
     return render(request, 'Medical/Registration/main-registration.html', {'patients': patients})
 
 
@@ -77,10 +81,19 @@ def OnOpenVisit(request, visit_id=0):
 
     images = Photography.objects.select_related().filter(Visit=visit_id)
     patient = Visit.objects.get(pk=visit_id).Patient
-    result = Result.objects.select_related().filter(Visit=visit_id)[0]
-    return render(request, 'Medical/Visit/open-visit.html', {'imgs': images,
-                                                             'patient': patient,
-                                                             'result': result})
+    results = Result.objects.select_related().filter(Visit=visit_id)
+    result = Result()
+    if results:
+        result = results[0]
+        return render(request, 'Medical/Visit/open-visit.html', {'imgs': images,
+                                                                 'patient': patient,
+                                                                 'result': result,
+                                                                 'img_from': result.Photo1,
+                                                                 'img_to': result.Photo2,
+                                                                 'percent': result.PercentChange})
+    else:
+        return render(request, 'Medical/Visit/open-visit.html', {'imgs': images,
+                                                                 'patient': patient})
 
 
 @login_required(login_url='/login/')

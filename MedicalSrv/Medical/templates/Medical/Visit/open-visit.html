@@ -8,7 +8,7 @@
       
           <div class="row">
             <div id="patient_details" class="col-6">
-                <h2 style="text-align: center">Image gallery</h2>
+                <h2 style="text-align: center">Patient Details</h2>
                 <div class="col-12  card card-block bg-light">
                         <div class="row">
                                 <div class="col-6">
@@ -41,13 +41,25 @@
                 <h2 style="text-align: center">Result</h2>
                 <div class="col-12  card card-block bg-light">
                         <div id="result" class="col-12">
-                                
                                     <div style="min-height: 20em" class="col-12">
                                             <a href="#" class="pop"><img style="width: 100%" src="{{ result.Image.url }}" /></a>
+                                            <h4 style="text-align: center">Percent: {{percent}} %</h4>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                                <h4 style="text-align: center">From:</h4>
+                                                <a href="#" class="pop"><img style="width: 100%" src="{{ img_from.Image.url }}" /></a>
+                                        </div>
+                                        <div class="col-6">
+                                                <h4 style="text-align: center">To:</h4>
+                                                <a href="#" class="pop"><img style="width: 100%" src="{{ img_to.Image.url }}" /></a>
+                                        </div>
                                     </div>
+                                    <label style="color: green">green: new changes</label><br>
+                                    <label style="color: blue">blue: old changes(non existing)</label>
                                     <form   method="post">
                                             {% csrf_token %}
-                                            <input style="visibility: hidden" type="text" id="inp_img" name="images_id">
+                                            <input  type="text" id="inp_img" name="images_id">
                                             <button class="btn btn-primary" type="submit">Calculate</button>
                                     </form>     
                                 </div>

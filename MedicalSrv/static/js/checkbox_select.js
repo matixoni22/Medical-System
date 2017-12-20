@@ -12,18 +12,25 @@ $(document).ready(function () {
    $("input[name='selection']").change(function() {
         $("input[name='selection']").not(this).prop('checked', false);  
     });
-
-   function updateTextArea() {         
-        var allVals = [];
-        $("input[name='check']:checked").each(function() {
-        allVals.push($(this).val());
-        });
+    window.allVals = [];
+   function updateTextArea(value) {         
+        var r = value.currentTarget;
+        if(r.checked == true)
+        {
+           allVals.unshift(r.defaultValue);
+        }
+        else{
+            allVals = $.grep(allVals, function(value) {
+                return value != r.defaultValue;
+              });
+        }
+        $.unique(allVals);
         $('#inp_img').val(allVals);
     }
     
     $(function() {
     $("input[name='check']").change(updateTextArea);
-    updateTextArea();
+    updateTextArea(this);
     }); 
 
 
