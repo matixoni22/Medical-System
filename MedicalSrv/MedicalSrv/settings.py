@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'MedicalSrv.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mproject',
-        'USER': 'admin_user',
-        'PASSWORD': '123',
+        'NAME': 'django',
+        'USER': 'djangouser',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
     }

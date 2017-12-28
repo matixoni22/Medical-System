@@ -38,7 +38,7 @@ def OnRegistration(request):
         try:
             patient_id = 0
             if 'selection' not in request.POST:
-                patient_Id = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
+                patient_id = ValidateAndAddPatient(request.POST['firstname'], request.POST['lastname'], request.POST['pid'],
                                                    request.POST['birthdate'], request.POST['sex'], request.POST['phonenumber'], request.user.id)
             else:
                 patient_id = int(request.POST['selection'])

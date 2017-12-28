@@ -67,14 +67,6 @@ class Visit(models.Model):
     Patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
     def publish(self):
-        self.CreateDate = datetime.now()
-        try:
-            directory = self.Patient.CatalogPath + "/" + str(self.Date)
-            os.makedirs(directory)
-            self.CatalogPath = directory
-        except OSError as init:
-            print("error: ", init)
-            raise EnvironmentError('Cannot add directory')
         self.save()
 
 

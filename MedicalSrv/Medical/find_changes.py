@@ -4,55 +4,66 @@ import numpy as np
 from .models import *
 from django.core.files import File
 
+# Generacja maski z podanego zdjęcia w przedziałach odcieni czerwonego
+
 
 def GenerateMask(img='', low_red1=np.array([0, 0, 0]), high_red1=np.array([0, 0, 0]), low_red2=np.array([0, 0, 0]), high_red2=np.array([0, 0, 0])):
+    # zamiana obrazu z formatu BGR na HSV
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # Szukanie pixeli z przedziału pierwszego
     img_mask1 = cv2.inRange(img_hsv, low_red1, high_red1)
+    # Szukanie pixeli z przedziału drugiegi
     img_mask2 = cv2.inRange(img_hsv, low_red2, high_red2)
 
-    mask = cv2.bitwise_or(img_mask1, img_mask2)
+    mask = cv2.bitwise_or(img_mask1, img_mask2)  # sumowanie wyników
     return mask
 
 
 def ReturnChanges(imageid_1=0, imageid_2=0):
+    # pobranie obrazów z bazy danych
     img1db = Photography.objects.get(pk=imageid_1)
     img2db = Photography.objects.get(pk=imageid_2)
     file_dri = '/home/matixoni/Medical System/Server/MedicalSrv/Medical/media/images/'
-    img1 = cv2.imread(file_dri + img1db.Name)
-    img2 = cv2.imread(file_dri + img2db.Name)
+    img1 = cv2.imread(file_dri + img1db.Name)  # odczyt pierwszego obrazu
+    img2 = cv2.imread(file_dri + img2db.Name)  # odczyt drugiego obrazu
 
     rows, cols, channels = img2.shape
     roi = img1[0:rows, 0:cols]
 
-    img_low_red1 = np.array([0, 70, 70])
+    img_low_red1 = np.array([0, 70, 70])  # pierwszy przedział czerwonego
     img_high_red1 = np.array([10, 255, 255])
 
-    img_low_red2 = np.array([170, 70, 70])
+    img_low_red2 = np.array([170, 70, 70])  # drugi przedział czerwonego
     img_high_red2 = np.array([180, 255, 255])
 
     mask1 = GenerateMask(img1, img_low_red1, img_high_red1,
-                         img_low_red2, img_high_red2)
+                         img_low_red2, img_high_red2)  # maska dla obrazu pierwszego (etap 1)
     mask2 = GenerateMask(img2, img_low_red1, img_high_red1,
-                         img_low_red2, img_high_red2)
+                         img_low_red2, img_high_red2)  # maska dla obrazu drugiego (etap 2)
 
+    # Obliczenie powierzchni maski pierwszej
     cout_mask1 = cv2.countNonZero(mask1)
-    cout_mask2 = cv2.countNonZero(mask2)
+    cout_mask2 = cv2.countNonZero(mask2)  # Obliczenie powierzchni maski drugej
 
+    # Obliczenie procentowej warości powieszchni masek
     percent_change = cout_mask2 / cout_mask1 * 100
 
+    # obliczenie różnicy pomiędzy maskami (etap 2)
     diff_mask = cv2.bitwise_xor(mask1, mask2)
 
+    # obliczenie różnicy dla poszczególnych masek (etap 3)
     diff_mask1 = cv2.bitwise_and(diff_mask, mask1)
-    diff_mask2 = cv2.bitwise_and(diff_mask, mask2)
+    diff_mask2 = cv2.bitwise_and(diff_mask, mask2)  # -||-
 
     diff_mask_inv = cv2.bitwise_not(diff_mask)
 
     img1_bg = cv2.bitwise_and(roi, roi, mask=diff_mask_inv)
+
     b, g, r = cv2.split(img2)
     b1, g1, r1 = cv2.split(img1)
 
-    imgfg1 = cv2.merge((b, g * 0, r * 0))
-    imgfg2 = cv2.merge((b1 * 0, g1, r1 * 0))
+    imgfg1 = cv2.merge((b, g * 0, r * 0))  # zmiana kolorów masek (etap 4)
+    imgfg2 = cv2.merge((b1 * 0, g1, r1 * 0))  # -||-
 
     img2_fg = cv2.bitwise_and(imgfg1, imgfg1, mask=diff_mask1)
     img1_fg = cv2.bitwise_and(imgfg2, imgfg2, mask=diff_mask2)
@@ -61,11 +72,11 @@ def ReturnChanges(imageid_1=0, imageid_2=0):
     result_img2 = cv2.add(img1_bg, img1_fg)
 
     fg_full = cv2.add(img2_fg, img1_fg)
+    # połączenie obrazów w całość (etap 5)
     full_result = cv2.add(img1_bg, fg_full)
 
     filename = "images_ids_" + str(img1db.Id) + "-" + str(img2db.Id) + ".jpg"
     save_dir = '/home/matixoni/Medical System/Server/MedicalSrv/Medical/media/' + filename
-
     cv2.imwrite(save_dir, full_result)
 
     result = Result()

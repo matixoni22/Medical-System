@@ -2,7 +2,7 @@ from .common.choices import *
 from .models import *
 from .find_changes import *
 from datetime import datetime
-
+from django.utils import timezone
 # todo
 # 1.validdation of sex
 # 2.validdation of phonenumber
@@ -34,6 +34,7 @@ def ValidateAndAddVisit(datetime='', time='', details='', patientId=0):
     visit = Visit()
     visit.Date = ValidateAndParseDateTime(datetime, datetime.__str__, time)
     visit.Details = details
+    visit.CreateDate = timezone.now()
     visit.Patient = Patient.objects.get(pk=patientId)
     visit.publish()
 
